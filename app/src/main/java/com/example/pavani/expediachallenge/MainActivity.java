@@ -19,6 +19,8 @@ public class MainActivity extends AppCompatActivity {
 
     ArrayList<Hotel> arrayList;
     ListView lv;
+    public String contentBaseURL = "https://techblog.expedia.com/utility/";
+    public String imgBaseURL = "http://images.travelnow.com";
 
 
     @Override
@@ -37,8 +39,6 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-
-
     class ReadJSON extends AsyncTask<String,Integer, String> {
 
         @Override
@@ -55,30 +55,71 @@ public class MainActivity extends AppCompatActivity {
                 {
 
                     JSONObject  hotelObject = jsonArray.getJSONObject(i);
-                    //Get Hotel Address from hotel object
-                    JSONObject hotelAddressObj = hotelObject.getJSONObject("hotelAddress");
-                    String hotelAddress = hotelAddressObj.getString("firstAddressLine") + ", " + hotelAddressObj.getString("city") + ", " + hotelAddressObj.getString("postalCode") + ", " + hotelAddressObj.getString("countryAlpha3Code");
 
                     //create arraylist of Hotels only if available is "true"
                     if(hotelObject.getString("available").equals("true")) {
-                        arrayList.add(new Hotel(
-                                hotelObject.getString("hotelName"),
-                                hotelObject.getString("hotelGuestRating"),
-                                hotelObject.getString("hotelStarRating"),
-                                hotelObject.getString("reviewTotal"),
-                                hotelObject.getString("hotelDescription"),
-                                hotelObject.getString("longitude"),
-                                hotelObject.getString("latitude"),
-                                hotelAddress,
-                                hotelObject.getJSONObject("lowRateInfo").getString("priceToShowUsers"),
-                                hotelObject.getJSONObject("lowRateInfo").getString("strikethroughPriceToShowUsers"),
-                                hotelObject.getString("largeThumbnailUrl"),
-                                hotelObject.getJSONObject("lowRateInfo").getString("discountPercent"),
-                                hotelObject.getString("roomsLeftAtThisRate")
+
+                        Hotel addHotel = new Hotel();
+
+                        if(hotelObject.has("hotelName"))
+                            addHotel.hotelName = hotelObject.getString("hotelName");
+
+                        if(hotelObject.has("hotelGuestRating"))
+                            addHotel.hotelGuestRating = hotelObject.getString("hotelGuestRating");
+
+                        if(hotelObject.has("hotelStarRating"))
+                            addHotel.hotelStarRating = hotelObject.getString("hotelStarRating");
+
+                        if(hotelObject.has("reviewTotal"))
+                            addHotel.hotelDescription = hotelObject.getString("reviewTotal");
+
+                        if(hotelObject.has("hotelDescription"))
+                            addHotel.hotelDescription = hotelObject.getString("hotelDescription");
+
+                        if(hotelObject.has("longitude"))
+                            addHotel.longitude = hotelObject.getString("longitude");
+
+                        if(hotelObject.has("latitude"))
+                            addHotel.latitude = hotelObject.getString("latitude");
+
+                        if(hotelObject.has("hotelAddress"))
+                        {
+                            JSONObject hotelAddressObj = hotelObject.getJSONObject("hotelAddress");
+                            String hotelAddress = hotelAddressObj.getString("firstAddressLine") + ", " + hotelAddressObj.getString("city") + ", " + hotelAddressObj.getString("postalCode") + ", " + hotelAddressObj.getString("countryAlpha3Code");
+                            addHotel.hotelAddress = hotelAddress;
+
+                        }
+
+                        if(hotelObject.has("lowRateInfo"))
+                        {
+                            if(hotelObject.getJSONObject("lowRateInfo").has("priceToShowUsers"))
+                            {
+                                addHotel.priceToShowUsers = hotelObject.getJSONObject("lowRateInfo").getString("priceToShowUsers");
+                            }
+
+                            if(hotelObject.getJSONObject("lowRateInfo").has("strikethroughPriceToShowUsers"))
+                            {
+                                addHotel.strikethroughPriceToShowUsers = hotelObject.getJSONObject("lowRateInfo").getString("strikethroughPriceToShowUsers");
+                            }
+
+                            if(hotelObject.getJSONObject("lowRateInfo").has("discountPercent"))
+                            {
+                                addHotel.discountPercent = hotelObject.getJSONObject("lowRateInfo").getString("discountPercent");
+                            }
+                        }
+
+                        if(hotelObject.has("largeThumbnailUrl"))
+                        {
+                            addHotel.imgURL = imgBaseURL + hotelObject.getString("largeThumbnailUrl");
+                        }
+
+                        if(hotelObject.has("roomsLeftAtThisRate"))
+                        {
+                            addHotel.roomsLeft = hotelObject.getString("roomsLeftAtThisRate");
+                        }
 
 
-
-                        ));
+                        arrayList.add(addHotel);
                     }
 
                 }
@@ -134,4 +175,5 @@ public class MainActivity extends AppCompatActivity {
             return sb.toString();
 
     }
+
 }

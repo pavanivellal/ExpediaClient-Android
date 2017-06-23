@@ -43,6 +43,24 @@ public class Hotel implements Parcelable {
   public String discountPercent;
   public String roomsLeft;
 
+  public Hotel()
+  {
+    this.hotelName = "Name";
+    this.hotelGuestRating = "0";
+    this.hotelStarRating = "0";
+    this.reviewTotal = "0";
+    this.hotelDescription = "Description";
+    this.longitude = "0.0";
+    this.latitude = "0.0";
+    this.hotelAddress = "Address";
+    this.priceToShowUsers = "0";
+    this.imgURL = "http://i.imgur.com/RiEIOcB.png";
+    this.discountPercent = "0";
+    this.roomsLeft = "0";
+    this.strikethroughPriceToShowUsers = "0";
+  }
+
+
 
   public Hotel(String hotelName, String hotelGuestRating, String hotelStarRating, String reviewTotal, String hotelDescription, String longitude, String latitude, String hotelAddress, String priceToShowUsers, String strikethroughPriceToShowUsers, String imgURL, String discountPercent, String roomsLeft) {
     this.hotelName = hotelName;
