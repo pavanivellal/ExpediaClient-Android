@@ -1,0 +1,62 @@
+package com.example.pavani.expediachallenge;
+
+/**
+ * Created by shaniyu1 on 6/21/17.
+ */
+
+import android.app.Activity;
+import android.content.Context;
+import android.support.annotation.LayoutRes;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
+
+import java.util.ArrayList;
+
+import java.util.List;
+
+public class CustomListAdapter extends ArrayAdapter<Hotel> {
+
+    ArrayList<Hotel> hotels;
+    Context context;
+    int resource;
+
+    public CustomListAdapter( Context context, int resource, ArrayList<Hotel> hotels) {
+        super(context, resource, hotels);
+        this.hotels = hotels;
+        this.context = context;
+        this.resource = resource;
+
+    }
+
+
+    @Override
+    public View getView(int position, View convertView, ViewGroup parent) {
+
+        if(convertView == null)
+        {
+            LayoutInflater layoutInflater = (LayoutInflater) getContext().getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
+                convertView = layoutInflater.inflate(R.layout.hotel_fragment,null,true  );
+        }
+
+        Hotel hotel = getItem(position);
+
+        ImageView imageView = (ImageView) convertView.findViewById(R.id.imageViewHotel);
+        Picasso.with(context).load(hotel.getImgURL()).into(imageView);
+
+        TextView name = (TextView) convertView.findViewById(R.id.hotel_name);
+        name.setText(hotel.getHotelName());
+
+        TextView price = (TextView) convertView.findViewById(R.id.hotel_price);
+        price.setText(hotel.getPriceToShowUsers());
+
+        return convertView;
+    }
+}
