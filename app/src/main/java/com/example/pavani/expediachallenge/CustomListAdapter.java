@@ -61,7 +61,7 @@ public class CustomListAdapter extends ArrayAdapter<Hotel> {
         guest_rating.setText(hotel.getHotelGuestRating());
 
         TextView guest_rating_txt = (TextView) convertView.findViewById(R.id.guest_rating_txt);
-        guest_rating_txt.setText(" of 5 - guest rating");
+        guest_rating_txt.setText("of 5 - guest rating");
 
         return convertView;
     }

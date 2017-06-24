@@ -1,5 +1,6 @@
 package com.example.pavani.expediachallenge;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.PorterDuff;
@@ -85,6 +86,16 @@ public class HotelDetails extends AppCompatActivity implements OnMapReadyCallbac
 
         LatLng hotelLocation = new LatLng(Double.parseDouble(hotel.getLatitude()), Double.parseDouble(hotel.getLongitude()));
         mMap.addMarker(new MarkerOptions().position(hotelLocation).title(hotel.getHotelName()));
-        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom((hotelLocation), 12.0f));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom((hotelLocation), 12.0f));
+        mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener()
+        {
+            @Override
+            public void onMapClick(LatLng arg0)
+            {
+                Intent intent = new Intent(HotelDetails.this, MapWithMarker.class);
+                intent.putExtra("sel_hotel", hotel);
+                startActivity(intent);
+            }
+        });
     }
 }
