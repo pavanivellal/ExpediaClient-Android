@@ -4,4 +4,14 @@
     <string name="str_iv_flag">Flag</string>
     <string name="action_settings">Settings</string>
     <string name="thumbnail">Thumbnail</string>
+    <string name="title_activity_settings">Settings</string>
+
+    <string name="city_prompt">Choose a city</string>
+
+    <string-array name="cities_array">
+        <item>San Francisco</item>
+        <item>Chicago</item>
+    </string-array>
+
+
 </resources>

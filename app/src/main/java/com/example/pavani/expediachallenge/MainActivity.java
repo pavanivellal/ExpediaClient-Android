@@ -1,12 +1,18 @@
 package com.example.pavani.expediachallenge;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 import java.io.BufferedReader;
@@ -19,8 +25,10 @@ public class MainActivity extends AppCompatActivity {
 
     ArrayList<Hotel> arrayList;
     ListView lv;
-    public String contentBaseURL = "https://techblog.expedia.com/utility/";
-    public String imgBaseURL = "http://images.travelnow.com";
+    private String contentBaseURL = "https://techblog.expedia.com/utility/";
+    private String contentURL = "san-francisco-hotels.json";
+    private String imgBaseURL = "http://images.travelnow.com";
+    private String title = "San Francisco";
 
 
     @Override
@@ -30,16 +38,46 @@ public class MainActivity extends AppCompatActivity {
         arrayList = new ArrayList<>();
         lv = (ListView) findViewById(R.id.hotels_list_view);
 
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                new ReadJSON().execute("https://techblog.expedia.com/utility/san-francisco-hotels.json");
-            }
-        });
+        if(getIntent().getStringExtra("sel_city") != null) {
+            contentURL = getIntent().getStringExtra("sel_city");
+        }
+        if(getIntent().getStringExtra("title") != null) {
+            title = getIntent().getStringExtra("title");
+        }
+
+        getSupportActionBar().setTitle(title + " Hotels");
+
+        new ReadJSON().execute(contentBaseURL+contentURL);
 
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        if(item.getItemId() == R.id.change_loc)
+        {
+            Intent intent = new Intent(MainActivity.this,Settings.class);
+            startActivity(intent);
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.main_menu,menu);
+        return true;
+    }
+
     class ReadJSON extends AsyncTask<String,Integer, String> {
+
+        ProgressDialog loading;
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            loading = ProgressDialog.show(MainActivity.this, "Please Wait",null, true, true);
+        }
 
         @Override
         protected String doInBackground(String... params) {
@@ -48,6 +86,7 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(String content) {
+            loading.dismiss();
             try {
                 JSONObject jsonObject = new JSONObject(content);
                 JSONArray jsonArray = jsonObject.getJSONArray("hotels");
