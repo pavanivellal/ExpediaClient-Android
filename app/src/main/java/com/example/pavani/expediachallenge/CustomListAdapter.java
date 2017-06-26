@@ -1,7 +1,7 @@
 package com.example.pavani.expediachallenge;
 
 /**
- * Created by shaniyu1 on 6/21/17.
+ * Created by Pavani Vellal on 6/21/17.
  */
 
 import android.app.Activity;

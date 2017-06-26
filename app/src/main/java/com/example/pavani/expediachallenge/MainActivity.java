@@ -11,8 +11,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.ProgressBar;
-
 import org.json.JSONArray;
 import org.json.JSONObject;
 import java.io.BufferedReader;
@@ -165,6 +163,10 @@ public class MainActivity extends AppCompatActivity {
 
             }catch (Exception e) {
                 e.printStackTrace();
+
+
+
+
             }
 
             CustomListAdapter adapter = new CustomListAdapter(

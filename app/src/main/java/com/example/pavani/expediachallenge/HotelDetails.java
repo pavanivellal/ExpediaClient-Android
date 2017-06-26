@@ -20,7 +20,6 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.squareup.picasso.Picasso;
-import android.app.ProgressDialog;
 
 
 public class HotelDetails extends AppCompatActivity implements OnMapReadyCallback {
