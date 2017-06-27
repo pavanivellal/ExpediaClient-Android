@@ -1,4 +1,4 @@
-package com.example.pavani.expediachallenge;
+package com.example.pavani.expediachallenge.Controller;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -11,6 +11,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import com.example.pavani.expediachallenge.Model.Hotel;
+import com.example.pavani.expediachallenge.Model.Network;
+import com.example.pavani.expediachallenge.R;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import java.io.BufferedReader;
@@ -32,20 +35,29 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        arrayList = new ArrayList<>();
-        lv = (ListView) findViewById(R.id.hotels_list_view);
 
-        if(getIntent().getStringExtra("sel_city") != null) {
-            contentURL = getIntent().getStringExtra("sel_city");
+        if(Network.isOnlineStatus(this))
+        {
+            setContentView(R.layout.activity_main);
+            arrayList = new ArrayList<>();
+            lv = (ListView) findViewById(R.id.hotels_list_view);
+
+            if(getIntent().getStringExtra("sel_city") != null) {
+                contentURL = getIntent().getStringExtra("sel_city");
+            }
+            if(getIntent().getStringExtra("title") != null) {
+                title = getIntent().getStringExtra("title");
+            }
+
+            getSupportActionBar().setTitle(title + " Hotels");
+
+            new ReadJSON().execute(contentBaseURL+contentURL);
         }
-        if(getIntent().getStringExtra("title") != null) {
-            title = getIntent().getStringExtra("title");
+
+        else {
+            setContentView(R.layout.activity_network_error);
         }
 
-        getSupportActionBar().setTitle(title + " Hotels");
-
-        new ReadJSON().execute(contentBaseURL+contentURL);
 
     }
 
@@ -55,6 +67,7 @@ public class MainActivity extends AppCompatActivity {
         if(item.getItemId() == R.id.change_loc)
         {
             Intent intent = new Intent(MainActivity.this,Settings.class);
+            intent.setFlags(intent.getFlags() | Intent.FLAG_ACTIVITY_NO_HISTORY);
             startActivity(intent);
         }
         return super.onOptionsItemSelected(item);

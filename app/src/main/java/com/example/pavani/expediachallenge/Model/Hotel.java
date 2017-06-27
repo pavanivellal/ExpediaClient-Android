@@ -1,4 +1,4 @@
-package com.example.pavani.expediachallenge;
+package com.example.pavani.expediachallenge.Model;
 
 import android.os.Parcel;
 import android.os.Parcelable;

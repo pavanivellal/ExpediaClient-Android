@@ -25,7 +25,12 @@ Here's a walkthrough of implemented user stories:
 
 <img src='http://i.imgur.com/gRypsxr.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
 
+Layout Changed to vertical
 <img src='http://i.imgur.com/QdzMmB5.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+
+Network Error Simulation Demo
+<img src='http://i.imgur.com/IX8LlvJ.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+
 
 
 GIF created with [LiceCap](http://www.cockos.com/licecap/).

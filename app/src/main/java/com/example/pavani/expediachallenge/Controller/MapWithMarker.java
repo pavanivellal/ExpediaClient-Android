@@ -1,7 +1,11 @@
-package com.example.pavani.expediachallenge;
+package com.example.pavani.expediachallenge.Controller;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
+import com.example.pavani.expediachallenge.Model.Hotel;
+import com.example.pavani.expediachallenge.Model.Network;
+import com.example.pavani.expediachallenge.R;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -17,11 +21,16 @@ public class MapWithMarker extends AppCompatActivity implements OnMapReadyCallba
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        hotel = (Hotel) getIntent().getParcelableExtra("sel_hotel");
-        setContentView(R.layout.activity_map_with_marker);
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map);
-        mapFragment.getMapAsync(this);
+
+        if(Network.isOnlineStatus(this)) {
+            hotel = (Hotel) getIntent().getParcelableExtra("sel_hotel");
+            setContentView(R.layout.activity_map_with_marker);
+            SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+                    .findFragmentById(R.id.map);
+            mapFragment.getMapAsync(this);
+        }
+        else
+            setContentView(R.layout.activity_network_error);
     }
 
     @Override

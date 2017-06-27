@@ -1,4 +1,4 @@
-package com.example.pavani.expediachallenge;
+package com.example.pavani.expediachallenge.Controller;
 
 import android.content.Intent;
 import android.graphics.Color;
@@ -13,6 +13,10 @@ import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
+
+import com.example.pavani.expediachallenge.Model.Hotel;
+import com.example.pavani.expediachallenge.Model.Network;
+import com.example.pavani.expediachallenge.R;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -41,45 +45,50 @@ public class HotelDetails extends AppCompatActivity implements OnMapReadyCallbac
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_hotel_details);
 
-        imageView = (ImageView) findViewById(R.id.hotelImage);
-        discountTxt = (TextView) findViewById(R.id.discountPercentage);
-        roomsLeftTxt = (TextView) findViewById(R.id.roomsLeft);
-        hotel_address = (TextView) findViewById(R.id.hotel_address);
-        hotel_name = (TextView) findViewById(R.id.hotel_name);
-        priceToShowUsers = (TextView) findViewById(R.id.hotel_price);
-        strikethroughPriceToShowUsers = (TextView) findViewById(R.id.strike_price);
-        hotel = (Hotel) getIntent().getParcelableExtra("sel_hotel");
+        if(Network.isOnlineStatus(this)) {
+            setContentView(R.layout.activity_hotel_details);
 
-        //Image set
-        Picasso.with(this).load(hotel.getImgURL()).into(imageView);
+            imageView = (ImageView) findViewById(R.id.hotelImage);
+            discountTxt = (TextView) findViewById(R.id.discountPercentage);
+            roomsLeftTxt = (TextView) findViewById(R.id.roomsLeft);
+            hotel_address = (TextView) findViewById(R.id.hotel_address);
+            hotel_name = (TextView) findViewById(R.id.hotel_name);
+            priceToShowUsers = (TextView) findViewById(R.id.hotel_price);
+            strikethroughPriceToShowUsers = (TextView) findViewById(R.id.strike_price);
+            hotel = (Hotel) getIntent().getParcelableExtra("sel_hotel");
 
-        //Hotel Name and Address
-        hotel_name.setText(hotel.getHotelName());
-        hotel_address.setText("Situated in " + hotel.getHotelAddress());
+            //Image set
+            Picasso.with(this).load(hotel.getImgURL()).into(imageView);
 
-        //Discount Percentage
-        discountTxt.setText(hotel.getDiscountPercent() + "%");
-        roomsLeftTxt.setText(hotel.getRoomsLeft() +  " Rooms Left");
+            //Hotel Name and Address
+            hotel_name.setText(hotel.getHotelName());
+            hotel_address.setText("Situated in " + hotel.getHotelAddress());
 
-        //Star Rating setting
-        ratingBar = (RatingBar) findViewById(R.id.ratingBar);
-        ratingBar.setRating(Float.parseFloat(hotel.getHotelStarRating()));
-        LayerDrawable stars = (LayerDrawable) ratingBar.getProgressDrawable();
-        stars.getDrawable(2).setColorFilter(Color.YELLOW, PorterDuff.Mode.SRC_ATOP);
+            //Discount Percentage
+            discountTxt.setText(hotel.getDiscountPercent() + "%");
+            roomsLeftTxt.setText(hotel.getRoomsLeft() + " Rooms Left");
 
-        //price to show users
-        priceToShowUsers.setText("$" + hotel.getPriceToShowUsers() + "/night");
+            //Star Rating setting
+            ratingBar = (RatingBar) findViewById(R.id.ratingBar);
+            ratingBar.setRating(Float.parseFloat(hotel.getHotelStarRating()));
+            LayerDrawable stars = (LayerDrawable) ratingBar.getProgressDrawable();
+            stars.getDrawable(2).setColorFilter(Color.YELLOW, PorterDuff.Mode.SRC_ATOP);
 
-        //Strike through price
-        strikethroughPriceToShowUsers.setText("$" + hotel.getStrikethroughPriceToShowUsers());
-        strikethroughPriceToShowUsers.setPaintFlags(strikethroughPriceToShowUsers.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+            //price to show users
+            priceToShowUsers.setText("$" + hotel.getPriceToShowUsers() + "/night");
 
-        //Google map view
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map);
-        mapFragment.getMapAsync(this);
+            //Strike through price
+            strikethroughPriceToShowUsers.setText("$" + hotel.getStrikethroughPriceToShowUsers());
+            strikethroughPriceToShowUsers.setPaintFlags(strikethroughPriceToShowUsers.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+
+            //Google map view
+            SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+                    .findFragmentById(R.id.map);
+            mapFragment.getMapAsync(this);
+        }
+        else
+            setContentView(R.layout.activity_network_error);
 
     }
 
@@ -89,6 +98,7 @@ public class HotelDetails extends AppCompatActivity implements OnMapReadyCallbac
         if(item.getItemId() == R.id.change_loc)
         {
             Intent intent = new Intent(HotelDetails.this,Settings.class);
+            intent.setFlags(intent.getFlags() | Intent.FLAG_ACTIVITY_NO_HISTORY);
             startActivity(intent);
         }
         return super.onOptionsItemSelected(item);
