@@ -16,6 +16,7 @@ The following **additional** features are implemented:
 - [x] Star rating with RatingBar.
 - [x] Settings page with spinner to choose Hotel’s city filter. This will easily allow the app to scale to add more cities.
 - [x] Passed Hotel Object in intents by making the Hotel object Parcelable.
+- [x] Checking for Network Availability and Internet connection before loading any activity. 
 
 
 
@@ -29,6 +30,7 @@ Layout Changed to vertical
 <img src='http://i.imgur.com/QdzMmB5.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
 
 Network Error Simulation Demo
+
 <img src='http://i.imgur.com/IX8LlvJ.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
 
 
